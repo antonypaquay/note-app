@@ -1,5 +1,5 @@
 export default class NotesAPI {
-    
+
     static getAllNotes() {
         const notes = JSON.parse(localStorage.getItem('notesapp-notes') || "[]");
 
@@ -13,7 +13,7 @@ export default class NotesAPI {
 
         const existing = notes.find(note => note.id == noteToSave.id);
 
-        if(existing) {
+        if (existing) {
             existing.title = noteToSave.title;
             existing.body = noteToSave.body;
             existing.updated = new Date().toISOString();
@@ -22,8 +22,8 @@ export default class NotesAPI {
             noteToSave.updated = new Date().toISOString();
             notes.push(noteToSave);
         }
-        localStorage.setItem("notesapp-notes", JSON.stringify(notes));
 
+        localStorage.setItem("notesapp-notes", JSON.stringify(notes));
     }
 
     static deleteNote(id) {

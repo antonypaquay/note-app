@@ -1,5 +1,4 @@
-import NotesAPI from "./NotesAPI.js";
+import App from "./App.js";
 
-NotesAPI.deleteNote(340584);
-
-console.log(NotesAPI.getAllNotes());
+const root = document.getElementById("app");
+const app = new App(root);
