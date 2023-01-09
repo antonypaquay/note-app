@@ -22,7 +22,7 @@ body {
 }
 
 .notes__add {
-    background: #009578;
+    background: #3633aa;
     border: none;
     border-radius: 7px;
     color: #ffffff;
@@ -35,7 +35,7 @@ body {
 }
 
 .notes__add:hover {
-    background: #00af8c;
+    background: #282693;
 }
 
 .notes__list-item {
@@ -45,7 +45,10 @@ body {
 .notes__list-item--selected {
     background: #eeeeee;
     border-radius: 7px;
-    font-weight: bold;
+}
+
+.notes__list-item--selected .notes__small-title {
+    font-weight: 700;
 }
 
 .notes__small-title,
@@ -54,15 +57,19 @@ body {
 }
 
 .notes__small-title {
-    font-size: 1.2em;
+    font-size: 1em;
+    line-height: 1.2;
 }
 
 .notes__small-body {
+    font-size: 0.875em;
+    line-height: 1.2;
     padding: 0 10px;
 }
 
 .notes__small-updated {
     color: #aaaaaa;
+    font-size: 0.75em;
     font-style: italic;
     text-align: right;
 }
@@ -82,13 +89,14 @@ body {
 }
 
 .notes__title {
-    font-size: 3em;
+    width: 100%;
+    font-size: 2.5em;
     font-weight: bold;
 }
 
 .notes__body {
     flex-grow: 1;
-    font-size: 1.2em;
+    font-size: 1em;
     line-height: 1.5;
     margin-top: 2em;
     resize: none;
