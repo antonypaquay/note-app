@@ -10,14 +10,16 @@ export default class NotesView {
     this.onNoteDelete = onNoteDelete;
     this.root.innerHTML = `
       <div class="notes__sidebar">
-        <button class="notes__add" type="button">Add Note</button>
-        <div class="notes__list"></div>
+        <div>
+          <button class="btn btn-primary notes__add" type="button">Add Note</button>
+          <div class="notes__list"></div>
+        </div>
+        <button type="button" class="btn" id="logout">Log out<span class="material-symbols-rounded">logout</span></button>
       </div>
       <div class="notes__preview">
         <input class="notes__title" type="text" placeholder="Enter a title...">
         <textarea class="notes__body">I am the note body...</textarea>
       </div>
-      <button type="button" id="logout">Log out</button>
     `;
 
     const btnAdd = this.root.querySelector(".notes__add");
@@ -95,14 +97,14 @@ export default class NotesView {
 
     return `
       <div class="notes__list-item" data-note-id="${id}">
-        <div class="notes__small-title">${title}</div>
-        <div class="notes__small-body">
+        <h3 class="notes__small-title">${title}</h3>
+        <p class="notes__small-body">
           ${body.substring(0, MAX_BODY_LENGTH)}
           ${body.length > MAX_BODY_LENGTH ? "..." : ""}
-        </div>
-        <div class="notes__small-updated">
+        </p>
+        <small class="notes__small-updated">
           ${updated.toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
-        </div>
+        </small>
       </div>
     `
   }
