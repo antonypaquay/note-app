@@ -1,3 +1,6 @@
+import { signOut } from "firebase/auth";
+import { auth } from "./config/firebase";
+
 export default class NotesView {
   constructor(root, { onNoteSelect, onNoteAdd, onNoteEdit, onNoteDelete } = {}) {
     this.root = root;
@@ -14,14 +17,22 @@ export default class NotesView {
         <input class="notes__title" type="text" placeholder="Enter a title...">
         <textarea class="notes__body">I am the note body...</textarea>
       </div>
+      <button type="button" id="logout">Log out</button>
     `;
 
     const btnAdd = this.root.querySelector(".notes__add");
+    const btnLogout = this.root.querySelector("#logout");
     const inpTitle = this.root.querySelector(".notes__title");
     const inpBody = this.root.querySelector(".notes__body");
 
     btnAdd.addEventListener('click', () => {
       this.onNoteAdd();
+    });
+
+    btnLogout.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        console.log("Logged out");
+      });
     });
 
     [inpTitle, inpBody].forEach(inputField => {
@@ -34,23 +45,6 @@ export default class NotesView {
     });
 
     this.updateNotePreviewVisibility(false);
-  }
-
-  _createListItemHTML(id, title, body, updated) {
-    const MAX_BODY_LENGTH = 60;
-
-    return `
-            <div class="notes__list-item" data-note-id="${id}">
-                <div class="notes__small-title">${title}</div>
-                <div class="notes__small-body">
-                    ${body.substring(0, MAX_BODY_LENGTH)}
-                    ${body.length > MAX_BODY_LENGTH ? "..." : ""}
-                </div>
-                <div class="notes__small-updated">
-                    ${updated.toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
-                </div>
-            </div>
-        `
   }
 
   updateNoteList(notes) {
@@ -94,5 +88,22 @@ export default class NotesView {
 
   updateNotePreviewVisibility(visible) {
     this.root.querySelector(".notes__preview").style.visibility = visible ? "visible" : "hidden";
+  }
+
+  _createListItemHTML(id, title, body, updated) {
+    const MAX_BODY_LENGTH = 60;
+
+    return `
+      <div class="notes__list-item" data-note-id="${id}">
+        <div class="notes__small-title">${title}</div>
+        <div class="notes__small-body">
+          ${body.substring(0, MAX_BODY_LENGTH)}
+          ${body.length > MAX_BODY_LENGTH ? "..." : ""}
+        </div>
+        <div class="notes__small-updated">
+          ${updated.toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
+        </div>
+      </div>
+    `
   }
 }

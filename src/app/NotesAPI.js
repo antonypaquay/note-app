@@ -1,12 +1,13 @@
-import { doc, collection, setDoc, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc, collection, setDoc, getDocs, deleteDoc, updateDoc, where, query } from "firebase/firestore";
 import { db } from "./config/firebase";
 
 export default class NotesAPI {
 
-  static async getAllNotes() {
+  static async getAllNotes(userId) {
     let notes = [];
     try {
-      const querySnapshot = await getDocs(collection(db, "notes"));
+      const q = query(collection(db, "notes"), where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         notes.push(doc.data());
       });
@@ -18,9 +19,8 @@ export default class NotesAPI {
     }
   }
 
-  static async saveNote(noteToSave) {
-    const userId = "dajke8913DAsdaz";
-    await this.getAllNotes().then(async (notes) => {
+  static async saveNote(userId, noteToSave) {
+    await this.getAllNotes(userId).then(async (notes) => {
       const existing = notes.find(note => note.id === noteToSave.id);
       if (existing) {
         try {
@@ -46,8 +46,8 @@ export default class NotesAPI {
     });
   }
 
-  static async deleteNote(id) {
-    const noteDocRef = doc(db, "notes", id);
+  static async deleteNote(userId, noteId) {
+    const noteDocRef = doc(db, "notes", noteId);
     try {
       await deleteDoc(noteDocRef);
     } catch (error) {
