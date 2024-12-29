@@ -179,10 +179,10 @@ input::placeholder {
 .notes__preview {
   display: flex;
   flex-direction: column;
-  padding: 2em 3em;
+  padding: 2rem 3rem;
   flex-grow: 1;
   background-color: var(--color-white);
-  min-height: 100vh;
+  min-height: calc(100vh - 4rem);
 }
 
 .notes__title,
