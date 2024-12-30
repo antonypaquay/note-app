@@ -1,15 +1,19 @@
 {
-  "name": "sandbox",
+  "name": "note_app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
-    "start": "live-server --port=3000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "live-server": "^1.2.1"
+    "firebase": "^11.1.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.6"
   }
 }
