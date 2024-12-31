@@ -5,8 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "vite",
-    "build:handler": "vite build",
-    "build": "NODE_OPTIONS=--unhandled-rejections=strict npm run build:handler",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "author": "",
