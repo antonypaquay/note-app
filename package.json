@@ -4,8 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "start": "vite",
+    "build:handler": "vite build",
+    "build": "NODE_OPTIONS=--unhandled-rejections=strict npm run build:handler",
     "preview": "vite preview"
   },
   "author": "",
