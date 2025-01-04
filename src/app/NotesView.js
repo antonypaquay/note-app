@@ -1,31 +1,44 @@
 import { signOut } from "firebase/auth";
 import { auth } from "./config/firebase";
+import { marked } from "marked";
+import logo from '../assets/img/logos/note-app-logo-256x256.png';
+import styles from "./NotesView.module.css";
 
 export default class NotesView {
-  constructor(root, { onNoteSelect, onNoteAdd, onNoteEdit, onNoteDelete } = {}) {
+  constructor(root, { onNoteSelect, onNoteAdd, onNoteSave, onNoteDelete } = {}) {
     this.root = root;
     this.onNoteSelect = onNoteSelect;
     this.onNoteAdd = onNoteAdd;
-    this.onNoteEdit = onNoteEdit;
+    this.onNoteSave = onNoteSave;
     this.onNoteDelete = onNoteDelete;
     this.root.innerHTML = `
-      <div class="notes__sidebar">
-        <div>
-          <button class="btn btn-primary notes__add" type="button">Add Note</button>
-          <div class="notes__list"></div>
+      <aside class="${styles.NotesSidebar}">
+        <header>
+          <img src="${logo}" class="${styles.authIcon}" alt="NoteApp logo"/>
+        </header>
+        <ul id="notes-list"></ul>
+        <footer>
+          <button class="btn btn-primary" id="btn-add" type="button">Add Note</button>
+          <button type="button" class="btn" id="logout">Log out<span class="material-symbols-rounded">logout</span></button>
+        </footer>
+      </aside>
+      <section class="${styles.NotePreview}">
+        <header class="${styles.NotePreviewHeader}">
+          <input class="${styles.NotePreviewHeaderTitle}" id="note-title" type="text" required placeholder="Type a note title">
+        </header>
+        <div class="${styles.NotePreviewBody}">
+          <textarea id="note-body" placeholder="Start writing a note with markdown.."></textarea>
+          <div id="note-result" class="${styles.NotePreviewBodyResult}">Résultat</div>
         </div>
-        <button type="button" class="btn" id="logout">Log out<span class="material-symbols-rounded">logout</span></button>
-      </div>
-      <div class="notes__preview">
-        <input class="notes__title" type="text" placeholder="Enter a title...">
-        <textarea class="notes__body">I am the note body...</textarea>
-      </div>
+      </section>
     `;
 
-    const btnAdd = this.root.querySelector(".notes__add");
+    this.noteContainer = this.root.querySelector(`section.${styles.NotePreview}`);
+    const btnAdd = this.root.querySelector("#btn-add");
     const btnLogout = this.root.querySelector("#logout");
-    const inpTitle = this.root.querySelector(".notes__title");
-    const inpBody = this.root.querySelector(".notes__body");
+    const inpTitle = this.root.querySelector("#note-title");
+    const inpBody = this.root.querySelector("#note-body");
+    const result = this.root.querySelector("#note-result");
 
     btnAdd.addEventListener('click', () => {
       this.onNoteAdd();
@@ -42,7 +55,15 @@ export default class NotesView {
         const updatedTitle = inpTitle.value.trim();
         const updatedBody = inpBody.value.trim();
 
-        this.onNoteEdit(updatedTitle, updatedBody);
+        this.onNoteSave(updatedTitle, updatedBody);
+      })
+    });
+
+    [inpTitle, inpBody].forEach(inputField => {
+      inputField.addEventListener("input", () => {
+        const updatedBody = inpBody.value.trim();
+
+        result.innerHTML = marked.parse(updatedBody);
       })
     });
 
@@ -50,7 +71,7 @@ export default class NotesView {
   }
 
   updateNoteList(notes) {
-    const notesListContainer = this.root.querySelector('.notes__list');
+    const notesListContainer = this.root.querySelector('#notes-list');
 
     // Empty list
     notesListContainer.innerHTML = "";
@@ -62,7 +83,7 @@ export default class NotesView {
     }
 
     // Add select/delete events for each list item
-    notesListContainer.querySelectorAll(".notes__list-item").forEach(noteListItem => {
+    notesListContainer.querySelectorAll("li").forEach(noteListItem => {
       noteListItem.addEventListener("click", () => {
         this.onNoteSelect(noteListItem.dataset.noteId);
       });
@@ -78,34 +99,36 @@ export default class NotesView {
   }
 
   updateActiveNote(note) {
-    this.root.querySelector(".notes__title").value = note.title;
-    this.root.querySelector(".notes__body").value = note.body;
+    this.root.querySelector("#note-title").value = note.title;
+    this.root.querySelector("#note-body").value = note.body;
+    this.root.querySelector("#note-result").innerHTML = marked.parse(note.body);
 
-    this.root.querySelectorAll(".notes__list-item").forEach(noteListItem => {
-      noteListItem.classList.remove("notes__list-item--selected");
+    this.root.querySelectorAll("#notes-list>li").forEach(noteListItem => {
+      noteListItem.classList.remove(styles.NoteListItemSelected);
     });
 
-    this.root.querySelector(`.notes__list-item[data-note-id="${note.id}"]`).classList.add("notes__list-item--selected");
+    const selectedNote = this.root.querySelector(`#notes-list>li[data-note-id="${note.id}"]`);
+    selectedNote.classList.add(styles.NoteListItemSelected);
   }
 
   updateNotePreviewVisibility(visible) {
-    this.root.querySelector(".notes__preview").style.visibility = visible ? "visible" : "hidden";
+    this.noteContainer.style.visibility = visible ? "visible" : "hidden";
   }
 
   _createListItemHTML(id, title, body, updated) {
     const MAX_BODY_LENGTH = 60;
 
     return `
-      <div class="notes__list-item" data-note-id="${id}">
-        <h3 class="notes__small-title">${title}</h3>
-        <p class="notes__small-body">
+      <li class="${styles.NoteListItem}" data-note-id="${id}">
+        <h3 class="${styles.NoteTitle}">${title}</h3>
+        <p class="${styles.NoteBody}">
           ${body.substring(0, MAX_BODY_LENGTH)}
           ${body.length > MAX_BODY_LENGTH ? "..." : ""}
         </p>
-        <small class="notes__small-updated">
+        <small class="${styles.NoteUpdated}">
           ${updated.toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
         </small>
-      </div>
+      </li>
     `
   }
 }
