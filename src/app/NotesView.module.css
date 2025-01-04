@@ -1,0 +1,204 @@
+/* Sidebar */
+.NotesSidebar {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-gray-200);
+  flex-shrink: 0;
+  overflow-y: auto;
+  width: 300px;
+  height: 100vh;
+  background-color: var(--color-white);
+}
+
+.NotesSidebar > header {
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.authIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-sm);
+  background-color: white;
+}
+
+.NotesSidebar > ul {
+  min-height: 100%;
+}
+
+.NotesSidebar > footer {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.NotesSidebar > footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.NotesSidebar > header,
+.NotesSidebar > ul,
+.NotesSidebar > footer {
+  padding: 1rem;
+}
+
+.NotesSidebar > header > button,
+.NotesSidebar > footer > button {
+  width: 100%;
+}
+
+.NoteListItem {
+  cursor: pointer;
+}
+
+.NoteTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-heading);
+}
+
+.NoteBody {
+  font-size: 0.875em;
+  padding: 0 10px;
+}
+
+.NoteUpdated {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.75em;
+  font-style: italic;
+  text-align: right;
+}
+
+.NoteListItemSelected {
+  background: var(--color-gray-200);
+  border-radius: var(--border-radius-sm);
+}
+
+.NoteListItemSelected .NoteTitle {
+  font-weight: 600;
+}
+
+.NoteTitle,
+.NoteUpdated {
+  padding: 10px;
+}
+
+/* Preview block */
+.NotePreview {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: var(--color-white);
+  height: 100vh;
+}
+
+.NotePreviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+  min-height: calc(81px - 33px);
+}
+
+.NotePreviewHeaderTitle,
+.NotePreviewBody > textarea {
+  border: none;
+  outline: none;
+}
+
+.NotePreviewHeaderTitle {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.NotePreviewBody {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.NotePreviewBody > textarea {
+  flex-grow: 1;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: none;
+}
+
+.NotePreviewBody > textarea,
+.NotePreviewBody > .NotePreviewBodyResult {
+  width: 50%;
+  height: calc(100% - 3rem);
+  padding: 1.5rem;
+}
+
+/* NotePreview */
+.NotePreviewBodyResult {
+  height: calc(100% - 3rem);
+  background-color: var(--color-gray-50);
+  overflow-y: auto;
+}
+
+.NotePreviewBodyResult > h1 {
+  font-size: 2.986rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > h2 {
+  font-size: 2.488rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > h3 {
+  font-size: 2.074rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > h4 {
+  font-size: 1.728rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > h5 {
+  font-size: 1.44rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > h6 {
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > p {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin: 0.5rem 0;
+}
+
+.NotePreviewBodyResult > small {
+  font-size: 0.833rem;
+  line-height: 1.2;
+}
+
+.NotePreviewBodyResult > ul {
+  list-style: initial;
+  padding-inline-start: 40px;
+}
+
+.NotePreviewBodyResult strong {
+  font-weight: 700;
+}

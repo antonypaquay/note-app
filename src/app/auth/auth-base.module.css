@@ -16,6 +16,7 @@
 .authContainer {
   width: calc(100% - 32px);
   max-width: 400px;
+  margin: 0 1rem;
   border: 1px solid #e2e8f0;
   background-color: white;
   box-shadow: 0 4px 8px var(--color-gray-200);

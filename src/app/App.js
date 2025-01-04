@@ -100,6 +100,17 @@ export default class App {
           self._refreshNotes();
         });
       },
+      onNoteSave: (title, body) => {
+        const self = this;
+        const data = {
+          id: this.activeNote.id,
+          title: title,
+          body: body
+        }
+        NotesAPI.saveNote(self.userId, data).then(function () {
+          self._refreshNotes();
+        });
+      },
       onNoteDelete: noteId => {
         const self = this;
         NotesAPI.deleteNote(this.userId, noteId).then(function () {
